@@ -1,2 +1,5 @@
 rootProject.name='Practice'
 include ':app'
+include ':libs:base'
+include ':libs:components'
+include ':modules:basics'
