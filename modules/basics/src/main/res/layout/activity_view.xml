@@ -4,17 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewActivity">
+    tools:context=".view.ViewActivity">
 
-    <com.jlhan.basics.ScrollTextView
-        android:id="@+id/tv_text"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:text="VIEW中的view"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+    <!--    <com.jlhan.basics.view.scroll.ScrollByOnlayoutView-->
+    <!--        android:layout_width="100dp"-->
+    <!--        android:layout_height="100dp"-->
+    <!--        android:background="@android:color/holo_green_dark"-->
+    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--    <com.jlhan.basics.view.scroll.ScrollByOffsetView-->
+    <!--        android:layout_width="100dp"-->
+    <!--        android:layout_height="100dp"-->
+    <!--        android:background="@android:color/holo_green_dark"-->
+    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <com.jlhan.basics.view.scroll.ScrollByLayoutParamsView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@android:color/holo_red_dark"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--    <com.jlhan.basics.view.scroll.ScrollByScrollToScrollByView-->
+    <!--        android:layout_width="100dp"-->
+    <!--        android:layout_height="100dp"-->
+    <!--        android:background="@android:color/holo_green_dark"-->
+    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <com.jlhan.basics.view.scroll.ScrollByScrollerView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@android:color/holo_green_dark"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,7 +3,7 @@
     package="com.jlhan.basics">
 
     <application>
-        <activity android:name=".ViewActivity"></activity>
+        <activity android:name=".view.ViewActivity"></activity>
     </application>
 
 </manifest>
