@@ -15,7 +15,29 @@
 -startScroll只是传进了参数startX和startY表示滑动起点,dx dy滑动距离,duration持续时间,需要调用invalidate()方法使重绘制开始  
 -重绘会调用View的draw()方法,draw()方法会调用View的computeScroll()方法.scroller.computeScrollOffset()方法会计算currX和currY  
 -然后调用父view来进行scrollTo,通过不断移动小距离来平滑移动.  
--Scroller不能直接实现View滑动,需要配合View的computeScroll方法,在这个方法中不断让View绘制,不断重复就形成弹性平滑的滑动
+-Scroller不能直接实现View滑动,需要配合View的computeScroll方法,在这个方法中不断让View绘制,不断重复就形成弹性平滑的滑动  
+**-其实我理解它和valueAnimator类似,可以拿到一些插值器的值来进行view的移动.**  
+
+##Activity源码构成  
+-setContentView()  
+->getWindow().setContentView()(getWindw获得mWindow是指PhoneWindow)  
+->PhoneWindow.setContentView  
+->installDecor() 生成DecorView  
+->generateDecor() DecorView 是Activity中的根View.是PhoneWindow的内部类,并继承了FrameLayout  
+->installDecor()中的generateLayout(DecorView) 根据不同情况加载不同的布局给layoutResource  
+->加载了R.layout.screen_title这个布局 两个布局 一个titleView  一个contentView  
+
+##源码解析View事件的分发机制  
+-dispatchTouchEvent(MotionEvent ev) -用来进行事件的分发  
+-onInterceptTouchEvent(MotionEvent ev) -用来进行事件的拦截,在dispatchTouchEvent()中调用,View中没有该方法  
+-onTouchEvent(MontionEvent ev) -用来处理点击事件,在dispacthTouchEvent()方法中调用.  
+
+-点击屏幕时就产生点击事件,这个事件被封装成一个类:MontionEvent.  
+->先传递给Activity,调用activity中的dispatchTouchEvent(),实际是Activity中的PhoneWindow,PhoneWindow再把事件处理交给DecorView.  
+->DecorView再将事件交给根ViewGroup.
+->ViewGroup的dispacthTouchEvent
+
+
 
 **UNSPECIFIED[安死拜C Fai德]**  
 -未指定模式 MeasureSpec中常量,View想多大就多大,父容器不做限制.
@@ -41,3 +63,7 @@
 -插值器 一般动画或者表示值变化  
 **ViscousFluidInterpolator[威斯克福录i得]**  
 -粘性流体插值器    
+**generate[摘ne瑞特]**  
+-使形成   
+**dispatch[摘ne瑞特]**  
+-派遣,发送  
