@@ -1,15 +1,19 @@
 package com.jlhan.basics.view.anim;
 
 import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+
+import com.jlhan.basics.R;
 
 /**
  * @author hanjinlong
@@ -40,12 +44,30 @@ public class AnimView extends View implements View.OnClickListener {
     @Override
     public void onClick(View view) {
 //        startTranslationXAnim();
-
 //        setValueAnimator();
 //        setAnimListener();
         setAnimSet();
+//        setPropertyValuesHolder();
+//        setAnimXml();
     }
 
+    // 6.用xml方式使用属性动画
+    private void setAnimXml() {
+        Animator animator = AnimatorInflater.loadAnimator(getContext(), R.animator.scale);
+        animator.setTarget(this);
+        animator.start();
+    }
+
+    // 5.组合动画PropertyValuesHolder 这个动画没有AnimatorSet丰富
+    private void setPropertyValuesHolder() {
+        PropertyValuesHolder valuesHolder1 = PropertyValuesHolder.ofFloat("scaleX", 1.0f, 1.5f);
+        PropertyValuesHolder valuesHolder2 = PropertyValuesHolder.ofFloat("rotationX", 0.0f, 90.0f, 1.0f);
+        PropertyValuesHolder valuesHolder3 = PropertyValuesHolder.ofFloat("alpha", 1.0f, 0.3f, 1.0f);
+        ObjectAnimator objectAnimator = ObjectAnimator.ofPropertyValuesHolder(this, valuesHolder1, valuesHolder2, valuesHolder3);
+        objectAnimator.setDuration(2000).start();
+    }
+
+    // 4.组合动画 AnimatorSet
     private void setAnimSet() {
         ObjectAnimator animator1 = ObjectAnimator.ofFloat(this, "translationX", 0.0f, 200, 0.0f, 0.0f);
         ObjectAnimator animator2 = ObjectAnimator.ofFloat(this, "scaleX", 1.0f, 2.0f);
@@ -123,7 +145,7 @@ public class AnimView extends View implements View.OnClickListener {
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-
+                float nFloat = (float) valueAnimator.getAnimatedValue();
             }
         });
     }
