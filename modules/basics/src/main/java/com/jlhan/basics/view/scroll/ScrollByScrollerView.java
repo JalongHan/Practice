@@ -11,11 +11,14 @@ import androidx.annotation.Nullable;
  * @author hanjinlong
  * @date 2020/6/22
  * @description View使用Scroller来进行滑动
+ * -三个构造方法,可以传入一个插值器Interpolator,不传有默认的ViscousFluidInterpolator
+ * -startScroll只是传进了参数startX和startY表示滑动起点,dx dy滑动距离,duration持续时间,需要调用invalidate()方法使重绘制开始
+ * -重绘会调用View的draw()方法,draw()方法会调用View的computeScroll()方法.scroller.computeScrollOffset()方法会计算currX和currY
+ * -然后调用父view来进行scrollTo,通过不断移动小距离来平滑移动.
+ * -Scroller不能直接实现View滑动,需要配合View的computeScroll方法,在这个方法中不断让View绘制,不断重复就形成弹性平滑的滑动
  */
 public class ScrollByScrollerView extends View implements View.OnClickListener {
     private Scroller mScroller;
-    private int lastX;
-    private int lastY;
 
     public ScrollByScrollerView(Context context) {
         super(context);
