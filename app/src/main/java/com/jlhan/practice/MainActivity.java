@@ -20,7 +20,8 @@ public class MainActivity extends AppCompatActivity {
         mTvText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ARouter.getInstance().build("/view/activity").navigation();
+//                ARouter.getInstance().build("/view/activity").navigation();
+                ARouter.getInstance().build("/customView/activity").navigation();
             }
         });
     }

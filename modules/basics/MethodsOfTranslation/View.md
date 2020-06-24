@@ -31,11 +31,56 @@
 -dispatchTouchEvent(MotionEvent ev) -用来进行事件的分发  
 -onInterceptTouchEvent(MotionEvent ev) -用来进行事件的拦截,在dispatchTouchEvent()中调用,View中没有该方法  
 -onTouchEvent(MontionEvent ev) -用来处理点击事件,在dispacthTouchEvent()方法中调用.  
+-MontionEvent 事件是 down开始 ->move多个  ->up结束
 
+##View事件分发  
 -点击屏幕时就产生点击事件,这个事件被封装成一个类:MontionEvent.  
 ->先传递给Activity,调用activity中的dispatchTouchEvent(),实际是Activity中的PhoneWindow,PhoneWindow再把事件处理交给DecorView.  
-->DecorView再将事件交给根ViewGroup.
-->ViewGroup的dispacthTouchEvent
+->DecorView再将事件交给根ViewGroup.  
+->ViewGroup的dispacthTouchEvent  如果是DOWN起始事件说明是新事件序列,所以初始化状态.  
+然后根据DOWN(说明是新的事件序列,将状态初始化)  
+和mFirstTouchTarget(当前viewgroup是否拦截了事件,如果拦截了mFirstTouchTarget=null,这时触发ACTION_DOWN事件则会执行onInterceptTouchEvent(ev)方法,    
+如果是MOVE,UP事件则不再执行onInterceptTouch,而直接设置intercepted=true  
+;,没拦截交给子view处理mFristTouchTarget!=null,)    
+和boolean disallowIntercept(主要是禁止拦截除DOWN以外的事件)  
+来执行onInterceptTouchEvent(ev)  默认返回false,如果想拦截要重写并返回true.  
+1.for循环遍历viewgroup的子元素,判断是否能接受点击,则交子元素来处理,是倒序遍历的,最上层子view往内层遍历.  
+2.然后判断是否在子view范围或子view是否在播放动画,不符合则continue表示这个view不符合条件,去遍历下一个view  
+3.dispatchTransformedTouchEvent() 有子view就调用子view的dispatchTouchEvent方法,如果没有调用 super.dispatchTouchEvent  
+->ViewGroup是继承View的,View的dispatchTouchEvent.如果OnTouchListener不为null并且onTouch方法返回true,则表示事件被消费.  
+->OnThouchEvent中-只要View的CLICKABLE和LONG_CLICKABLE有一个为true,就会返回true消费这个事件,在ACTION_UP事件中调用performClick()方法  
+->performClick() 如果设置了点击事件,那么它的onClick方法就会执行.  
+
+##View事件的传递  
+-首先是一段伪代码  
+(```)
+    public boolean dispatchTouchEvent(MotionEvent ev){
+        boolean result = false;
+        if(onInterceptTouchEvent(ev)){
+            result = super.onTouchEvent(ev);
+        }else{
+            result = child.dispatchTouchEvent(ev);
+        }
+        return result;
+    }
+(```)  
+由上而下的传递逻辑  
+Activity  
+->PhoneWindows  
+->DecorView  
+->ViewGroup  dispatchTouchEvent()  
+如果该ViewGroup的onInterceptTouchEvent()返回true,表示它要拦截这个事件,就由这个ViewGroup的onTouchEvent()方法处理  
+如果返回false 则表示它不拦截这个事件,则这个事件会交给它的子元素的dispatchTouchEvent()来处理,  
+如此反复,如果传递给底层的View,  
+因View是没有子View的 调用 View的dispatchTouchEvent()方法,由于View没有拦截方法,最终会调用View的onTouchEvent()  
+
+onTouchEvent() 返回true,则事件由底层的View消耗,如果返回false则表示该View不做处理,则传递给父View的onTouchEvent处理,  
+如果父View的onTouchEvent()依旧返回false,则继续传递给该父View的父View处理,如此反复.
+
+##View的工作流程  
+1.DecorView加载完成后  
+
+##理解MeasureSpec  
 
 
 
@@ -59,11 +104,21 @@
 **alpha[阿尔法]**  
 -透明度  
 
-**interpolator[引特伯累特er]**  
+**interpolator[因特伯累特er]**  
 -插值器 一般动画或者表示值变化  
 **ViscousFluidInterpolator[威斯克福录i得]**  
 -粘性流体插值器    
 **generate[摘ne瑞特]**  
 -使形成   
-**dispatch[摘ne瑞特]**  
+**dispatch[地丝拜吃]**  
 -派遣,发送  
+**disallow[地丝劳o]**  
+-驳回,不允许,不接受  
+**intercept[因特赛坡特]**  
+-拦截,截断  
+**panel[趴no]**  
+-面板,仪表板   
+**intrinsic[因春赛克]**  
+-本质的,固有的   
+**suggested[涩摘丝ted]**  
+-推荐的,建议的   
