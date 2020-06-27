@@ -54,15 +54,15 @@
 ##View事件的传递  
 -首先是一段伪代码  
 (```)
-    public boolean dispatchTouchEvent(MotionEvent ev){
-        boolean result = false;
-        if(onInterceptTouchEvent(ev)){
-            result = super.onTouchEvent(ev);
-        }else{
-            result = child.dispatchTouchEvent(ev);
-        }
-        return result;
-    }
+    public boolean dispatchTouchEvent(MotionEvent ev){  
+        boolean result = false;  
+        if(onInterceptTouchEvent(ev)){  
+            result = super.onTouchEvent(ev);  
+        }else{  
+            result = child.dispatchTouchEvent(ev);  
+        }  
+        return result;  
+    }  
 (```)  
 由上而下的传递逻辑  
 Activity  
@@ -80,9 +80,34 @@ onTouchEvent() 返回true,则事件由底层的View消耗,如果返回false则�
 ##View的工作流程  
 1.DecorView加载完成后  
 
-##理解MeasureSpec  
+**理解MeasureSpec**  
+SpecMode有下面三种模式:  
+-UNSPECIFIED: 不确定但无上限.(特殊的AT_MOST).未指定模式,View想多大就多大,父容器不做限制,一般用于系统内部的测量.  
+-AT_MOST: 不确定但有上限.最大模式,对应于wrap_content属性,子View的最终大小就是父View指定的SpecSize值.并且子View的大小不能大于这个值.  
+-EXACTLY: 确定.精确模式,对应于macth_parent 和具体的数值,父窗口测量出View所需的大小,就是SpecSize的值.  
+每个View都持有一个MeasureSpec,里面保存该View的尺寸规格,通过makeMeasureSpec保存宽和高信息.  
+通过getMode获取模式,getSize获取宽高.受自身的LayoutParams和父容器的MeasureSpec共同影响.  
+**对应关系:**
+match_parent-->EXACTLY  
+wrap_content-->AT_MOST  
 
+**View的Measure流程**  
+1.View.onMeasure(int widthMeasureSpec, int heightMeasureSpec)  
+2.setMeasuredDimension(int measureWidth, int measureHeight) 设置View宽高的  
+3.getDefaultSize(int size, int measureSpec) 根据不同的SpecMode值来返回不同的Size值.  
+-对于 自定义View来说wrap_content和match_parent属性效果是一样的,所以需要重写onMeausre方法,对warp_content属性处理.  
+4.getSuggestedMinimumWidth() 或 getSuggestedMinimumHeight:   
+如果没设置背景,则取值mMinWidth,mMinHeight是可设置的,如果不指定,默认为0  
+如果设置了背景,则取值max(mMinWidth,mBackground.getMinimumWidth()) 两个值的最大值.最小宽度和mBackground是drawable  
 
+**ViewGroup的Measure流程**  
+1.不只要测量自身,还要遍历地调用子元素的measure方法,没有onMeasure方法,但有measureChildren(),遍历子元素并调用measureChild:  
+2.调用child.getLayouParams获取LayouParams属性,获取子元素的MeasureSPec并调用子元素的measure测量.  
+3.getChildMeasureSpec():  
+父 EXACTLY     子有值-EXACTLY 子match_parent-EXACTLY     子warp_content-AT_MOST  
+父 AT_MOST     子有值-EXACTLY **子match_parent-AT_MOST**     子warp_content-AT_MOST  
+父 UNSPECIFIED 子有值-EXACTLY 子match_parent-UNSPECIFIED 子warp_content-UNSPECIFIED  
+需要注意的,如果父是AT_MOST子元素match和wrap属性是一样的都是AT_MOST,如果要解决,需要在LayoutParams属性为Wrap时指定一下默认值宽和高  
 
 **UNSPECIFIED[安死拜C Fai德]**  
 -未指定模式 MeasureSpec中常量,View想多大就多大,父容器不做限制.
@@ -122,3 +147,11 @@ onTouchEvent() 返回true,则事件由底层的View消耗,如果返回false则�
 -本质的,固有的   
 **suggested[涩摘丝ted]**  
 -推荐的,建议的   
+**adjust[a just]**  
+-调整,校准,适应,使...适合.  
+**dimension[di们神]**  
+-尺寸,标出尺寸,规格的.  
+**force[four死]**  
+-强制.使..  
+**wide[外的]**  
+-宽  
