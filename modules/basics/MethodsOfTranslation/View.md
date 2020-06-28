@@ -109,6 +109,17 @@ wrap_content-->AT_MOST
 父 UNSPECIFIED 子有值-EXACTLY 子match_parent-UNSPECIFIED 子warp_content-UNSPECIFIED  
 需要注意的,如果父是AT_MOST子元素match和wrap属性是一样的都是AT_MOST,如果要解决,需要在LayoutParams属性为Wrap时指定一下默认值宽和高  
 
+**自定义View**  
+1.继承View自定义  
+-获取自定义属性,onMeasure要处理wrap_content.多数在onDraw里做文章  
+2.继承其它已有View自定义  
+-也是在onDraw  
+3.继承已有ViewGroup(如RelativeLayout)定义  
+-里面有写好布局,可自定义属性.设置一些public方法来添加显示或Listener
+3.继承ViewGroup自定义  
+
+
+
 **UNSPECIFIED[安死拜C Fai德]**  
 -未指定模式 MeasureSpec中常量,View想多大就多大,父容器不做限制.
 
@@ -157,3 +168,7 @@ wrap_content-->AT_MOST
 -宽  
 **declare[底可来尔]**  
 -声明  
+**simplify[sin普乐fine]**  
+-简化  
+**horizontal[后瑞怎头]**  
+-水平的  
