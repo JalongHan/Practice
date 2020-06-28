@@ -1,6 +1,7 @@
 package com.jlhan.basics.view.custom;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -8,6 +9,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+
+import com.jlhan.basics.R;
 
 public class RectView extends View {
 
@@ -21,6 +24,11 @@ public class RectView extends View {
 
     public RectView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        TypedArray mTypedArray = context.obtainStyledAttributes(attrs, R.styleable.RectView);
+        // 提取RectView属性集合的rect_color属性.如果没设置,默认值为Color.RED
+        mColor = mTypedArray.getColor(R.styleable.RectView_rect_color, Color.RED);
+        // 获取资源后要及时回收
+        mTypedArray.recycle();
         initDraw();
     }
 

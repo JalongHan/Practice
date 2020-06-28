@@ -155,3 +155,5 @@ wrap_content-->AT_MOST
 -强制.使..  
 **wide[外的]**  
 -宽  
+**declare[底可来尔]**  
+-声明  
