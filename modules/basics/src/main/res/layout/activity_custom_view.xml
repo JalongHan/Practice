@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".view.CustomViewActivity">
 
+    <com.jlhan.basics.view.custom.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title_bg="@android:color/holo_orange_dark"
+        app:title_text="自定义组合控件"
+        app:title_text_color="@android:color/holo_blue_dark" />
+
     <com.jlhan.basics.view.custom.InvalidTextView
         android:id="@+id/tv_text"
         android:layout_width="200dp"
