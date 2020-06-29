@@ -5,15 +5,14 @@
     android:layout_height="match_parent"
     tools:context=".view.CustomViewGroupActivity">
 
-    <!--    <View-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:background="@android:color/holo_blue_dark"/>-->
+    <ListView
+        android:id="@+id/lv_one"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-
-    <!--    <View-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:background="@android:color/holo_red_dark"/>-->
+    <ListView
+        android:id="@+id/lv_two"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </com.jlhan.basics.view.custom.HorizontalView>

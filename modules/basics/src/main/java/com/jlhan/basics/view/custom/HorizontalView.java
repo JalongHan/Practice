@@ -3,6 +3,7 @@ package com.jlhan.basics.view.custom;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Scroller;
@@ -23,6 +24,7 @@ public class HorizontalView extends ViewGroup {
     private int currentIndex = 0; // 当前子元素
     private int childWidth = 0;
     private Scroller scroller;
+    private VelocityTracker tracker;
 
     public HorizontalView(Context context) {
         super(context);
@@ -41,6 +43,9 @@ public class HorizontalView extends ViewGroup {
 
     private void init(Context context) {
         scroller = new Scroller(context);
+        tracker = VelocityTracker.obtain();
+        // 需添加clickAble=true,不然接收不到后续的点击事件,接收不到是因为子view没有点击事件.
+        // setClickable(true);
     }
 
     @Override
@@ -95,6 +100,15 @@ public class HorizontalView extends ViewGroup {
         }
     }
 
+    /**
+     * 解决onInterceptTouchEvent只能拦截到Down事件
+     * MotionEvent.ACTION_MOVE和MotionEvent.ACTION_UP的事件必须要满足
+     * 1.onInterceptTouchEvent的返回值为false，因为返回true事件将不会再传递到这个方法里面
+     * 2.该ViewGroup必须要有子控件并且该子控件要将传递过去的事件给处理掉（也就是说说return true）
+     *
+     * @param ev
+     * @return boolean 是否拦截事件
+     */
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         // 在Move时计算每次手指移动的距离,判断是水平还是垂直滑动.
@@ -103,22 +117,29 @@ public class HorizontalView extends ViewGroup {
         int y = (int) ev.getY();
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                // 如果scroller未完成,调用abortAnimation方法打断.
+                intercept = false;
+                if (!scroller.isFinished()) {
+                    scroller.abortAnimation();
+                }
                 break;
             case MotionEvent.ACTION_MOVE:
                 int deltaX = x - lastInterceptX;
                 int deltaY = y - lastInterceptY;
                 if (Math.abs(deltaX) - Math.abs(deltaY) > 0) {
                     intercept = true;
+                } else {
+                    intercept = false;
                 }
                 break;
             case MotionEvent.ACTION_UP:
+                intercept = false;
                 break;
         }
         lastX = x;
         lastY = y;
         lastInterceptX = x;
         lastInterceptY = y;
-        LogUtils.i(intercept);
         return intercept;
     }
 
@@ -137,13 +158,27 @@ public class HorizontalView extends ViewGroup {
             case MotionEvent.ACTION_UP:
                 int distance = getScrollX() - currentIndex * childWidth;
                 if (Math.abs(distance) > childWidth / 2) {
+                    // 滑动距离 大于宽度的一半就滑动.
                     if (distance > 0) {
                         currentIndex++;
                     } else {
                         currentIndex--;
                     }
+                } else {
+                    tracker.computeCurrentVelocity(1000);
+                    float xV = tracker.getXVelocity();
+                    if (Math.abs(xV) > 50) {
+                        // 切换到上一个页面
+                        currentIndex--;
+                    } else {
+                        // 切换到下一个页面
+                        currentIndex++;
+                    }
                 }
+                currentIndex = currentIndex < 0 ? 0 : currentIndex > getChildCount() - 1 ? getChildCount() - 1 : currentIndex;
                 smoothScrollTo(currentIndex * childWidth, 0);
+                // 要释放tracker
+                tracker.clear();
                 break;
         }
         lastX = x;
@@ -152,6 +187,7 @@ public class HorizontalView extends ViewGroup {
     }
 
     private void smoothScrollTo(int destX, int destY) {
+        LogUtils.i(getScrollX(), getScrollY());
         scroller.startScroll(getScrollX(), getScrollY(), destX - getScrollX(), destY - getScrollY(), 1000);
         invalidate();
     }

@@ -3,6 +3,8 @@
 -getLeft() : 获取View自身顶边到其父布局左边的距离  
 -getRight() : 获取View自身顶边到其父布局右边的距离  
 -getBottom() : 获取View自身顶边到其父布局底边的距离  
+-getScrollX() : 获取View自身左边到屏幕右边的距离,看view向左边滚动是正数,右边滚动是负数.  
+-getScrollY() : 获取View自身顶边到屏幕顶边的距离,view上边滚动是正数,下边滚动是负数  
 
 ##MontionEvent提供的方法  
 -getX() : 获取点击事件距离控件左边的距离，即视图坐标  
@@ -76,6 +78,12 @@ Activity
 
 onTouchEvent() 返回true,则事件由底层的View消耗,如果返回false则表示该View不做处理,则传递给父View的onTouchEvent处理,  
 如果父View的onTouchEvent()依旧返回false,则继续传递给该父View的父View处理,如此反复.
+
+思考:  
+**1.解决onInterceptTouchEvent只能拦截到Down事件**  
+MotionEvent.ACTION_MOVE和MotionEvent.ACTION_UP的事件必须要满足  
+onInterceptTouchEvent的返回值为false，因为返回true事件将不会再传递到这个方法里面  
+该ViewGroup必须要有子控件并且该子控件要将传递过去的事件给处理掉（也就是说说return true）  
 
 ##View的工作流程  
 1.DecorView加载完成后  
@@ -172,3 +180,7 @@ wrap_content-->AT_MOST
 -简化  
 **horizontal[后瑞怎头]**  
 -水平的  
+**velocity[v漏city]**  
+-速度  
+**tracker[踹克er]**  
+-追踪者  
