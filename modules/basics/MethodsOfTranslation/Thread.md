@@ -22,8 +22,32 @@
 Java内存模型:  
 局部变量,方法定义的参数不会在线程之间共享.线程之间的共享亦是存在主存中,每个线程都有一个私有的本地内存.  
 java内存模型控制线程之间的通信,它决定一个线程对主存共享变量的写入何时对另一个线程可见.  
+2种使用情景:  
+1.在线程中的状态标志.  
+2.单例模式中的双重检查模式.  
 
-
+**阻塞队列**  
+1.当队列中没有数据的情况下,消费者端的所有线程都会被自动阻塞(挂起),直到有数据放入队列.  
+2.当队列中填满数据的情况下,生产者端的所有线程都会被自动阻塞(挂起),直接到队列中有空的位置,线程被自动唤醒.  
+**BlockingQueue的核心方法**
+放入数据:  
+offer(anObject):如果可能将anObject加到BlockingQueue里,可以容纳返回true,否则返回false.不会阻塞当前执行方法的线程.  
+offer(E o,long timeout,TimeUnit unit):可以设置等待时间,如果指定时间还不能加入到BlockingQueue,则返回失败.  
+put(anObject):将anObject加到BlockingQueue里.如果没有空间,则调用此方法的线程被阻断,直到里面有空间再继续.  
+获取数据:  
+poll(time):取走BlockingQueue里排在首位的对象.若不能立即取出,则可以等time参数规定的时间,取不到时返回null.  
+poll(long timeout,TimeUnit unit):从BlockingQueue中取出一个队首的对象,如果在指定时间内,队列有数据可取,  
+则立即返回队列中排在首位的对象.直接到超时还没数据可取,返回失败.  
+take():取走BlockingQueue里排在首位的对象.若BlockingQueue为空,则阻断进入等待状态,直到BLockingQueue有新的数据被加入.  
+drainTo():一次性从BlockingQueue区取所有可用数据(还可指定获取的个数),通过该方法可以提升获取数据效率,无须多次加锁或释放锁.  
+有七个阻塞队列:  
+1.ArrayBlockingQueue:数组结构组成的有界阻塞队列.  
+2.LinkedBlockingQueue:链表结构组成的有界阻塞队列.  
+3.PriorityBlockingQueue:支持优先级排序的无界阻塞队列.  
+4.DelayQueue:使用优先级队列pugmr无界阻塞队列.  
+5.SynchronousQueue:不存储元素的阻塞队列.  
+6.LinkedTransferQueue:由链表结构组成的无界阻塞队列.  
+7.LinkedBlockingDeque:由链表结构组成的双向阻塞队列.  
 
 
 
@@ -48,3 +72,17 @@ java内存模型控制线程之间的通信,它决定一个线程对主存共享
 -条件,情况  
 **synchronized[sin kou耐zi得]**  
 -同步的.  
+**synchronous[sin kou耐si]**  
+-同步的.同时的  
+**offer[凹弗]**  
+-提供,提议,试图.(放入数据用)  
+**poll[泡~]**  
+-投票.(取出数据)  
+**unit[u内特]**  
+-单位  
+**priority[普ruai凹瑞tei]**  
+-优先,优先权.  
+**deque[戴克]**  
+-双队列,双端队列  
+**dequeue[地k ue]**  
+-使()出列  
