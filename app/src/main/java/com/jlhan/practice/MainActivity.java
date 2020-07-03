@@ -24,7 +24,8 @@ public class MainActivity extends AppCompatActivity {
 //                ARouter.getInstance().build("/customView/activity").navigation();
 //                ARouter.getInstance().build("/customViewGroup/activity").navigation();
 //                ARouter.getInstance().build("/MultiThread/activity").navigation();
-                ARouter.getInstance().build("/StopThread/activity").navigation();
+//                ARouter.getInstance().build("/StopThread/activity").navigation();
+                ARouter.getInstance().build("/BlockingQueue/activity").navigation();
             }
         });
     }

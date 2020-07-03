@@ -48,6 +48,9 @@ drainTo():一次性从BlockingQueue区取所有可用数据(还可指定获取�
 5.SynchronousQueue:不存储元素的阻塞队列.  
 6.LinkedTransferQueue:由链表结构组成的无界阻塞队列.  
 7.LinkedBlockingDeque:由链表结构组成的双向阻塞队列.  
+**实现原理:**  
+
+**使用场景:**  
 
 
 
@@ -86,3 +89,9 @@ drainTo():一次性从BlockingQueue区取所有可用数据(还可指定获取�
 -双队列,双端队列  
 **dequeue[地k ue]**  
 -使()出列  
+**enqueue[因k ue]**  
+-使()出列  
+**consumer[肯sue me]**  
+-消费者,用户,顾客  
+**producer[波低sir]**  
+-生产者,制作人  
