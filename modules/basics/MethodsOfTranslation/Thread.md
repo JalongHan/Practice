@@ -51,12 +51,64 @@ drainTo():一次性从BlockingQueue区取所有可用数据(还可指定获取�
 **实现原理:**  
 
 **使用场景:**  
+生产者-消费者模式  
 
+**线程池:**  
+ThreadPoolExecutor:  
+publick ThreadPoolExecutor(  
+int corePoolSize,:核心xgtkovt.默认情况是空的,只有任务提交才会创建线程.如果当前运行的线程数少于corePoolSize,则创建新线程来处理任务.  
+                  如果等于或多于corePoolSize,则不再创建.如果调用prestartAllcoreThread方法,线程池会提前创建并启动所有核心线程来等待任务.  
+int maximumPoolSize,:线程池允许创建的最大线程数,如果任务队列满了并且线程数小于maximumPoolSize时,则线程池仍旧会创建新的线程来处理任务.  
+long keepAliveTime,:非核心线程闲置的超时时间.超过这个时间则回收,如果任务很多,并且每个任务的执行事件很短,则可以调大keepAliveTime提高线程利用率  
+                    另外,如果设置allowCoreThreadTimeOut属性为true时,keepAliveTime也会应用到核心线程上.    
+TimeUnit unit,:keepAliveTime参数的时间单位  
+BlockingQueue workQueue,:任务队列.如果当前线程数大于corePoolSize,则将任务添加到此任务队列中.是一个阻塞队列.    
+ThreadFactory threadFactory,:线程工厂.可以用这个给每个创建出来的线程设置名字.一般无须设置该参数.    
+RejectedExecutionHandler handler):饱和策略(拒绝执行handler).这时当前任务队列和线程池都满了时所采取的应对策略,默认是AbordPolicy,  
+                                  表示无法处理新任务.并抛出异常.还有其它三种策略:  
+                                   1.CallerRunsPolicy:用调用者所在的线程来处理任务.此策略提供简单的反馈控制机制,能够减缓新任务的提交速度.  
+                                   2.DiscardPolicy:不能执行的任务,并将该任务删除.  
+                                   3.DiscardOldestPolicy:丢弃队列最近的任务,并执行当前的任务.  
 
+原理:  
+提交任务 -> 线程是否达到corePoolSize -是-> 任务队列是否已满     -是-> 线程数是否达到最大线程数 -是-> 执行饱和策略.  
+                                 -否-> 创建核心线程执行任务  -否-> 将任务加在任务队伍中    -否-> 创建非核心线程执行任务  
 
+线程池的各类:  
+1.FixedThreadPool: 
+是可重用固定线程数的线程池.只有核心线程,并且数量是固定的,没有非核心线程.keepAliveTime为0L,意味着多余的线程会被终止.任务队列是LinkedBlockingQueue.  
+核心线程不会被回收,当线程池有空闲线程,就去任务队列取任务,线程数超过corePoolSize时就将任务存任务队列里.  
+2.CachedThreadPool:  
+它的corePoolSize为0,maximumPoolSize为Integer.Max_VALUE,这意味着没有核心线程,非核心线程是无界的,keepAliveTime设置为60L,  
+则空闲线程等待新任务的最长时间为60s,阻塞队列用的是SynchornousQueue,它是一个不存储元素的阻塞队列.  
+因为是无界的,提交任务大于线程处理任务的速度就会不断创建新线程.每次任务都会立即有线程去处理,所以比较适合  
+大量需要处理并且耗时较少的任务.  
+3.SingleThreadExecutor:  
+是使用单个工程线程的线程池,corePoolSize和maximumPoolSize都是1,意味着只有一个线程,其它参数与fixedThreadPool一样.  
+4.ScheduledThreadPool:  
+是一个能实现定时和周期性任务的线程池.  
+使用DelayedWOrkQueue是无界的,所以maximumPoolSize这个参数是无效的.  
+当执行它下面的scheduleAtFixedRate 或者 scheduleWithFixedDelay方法时,会向DelayedWorkQueue添加一个实现RunnableScheduleFutrue接口的  
+ScheduledFutureTask(任务的包装类),并检查运行的线程是否达到corePoolSize.如果没有则新建线程并启动它,但并不是立即去执行任务,  
+而是去queue中取scheduledFutureTask,然后去执行任务.如果线程达到corePoolSize,则将任务添加到queue中.  
+DelayedWorkQueue会将任务进行排序,先要执行的任务放在队列的前面,当执行完任务后,会将ScheduledFutureTask中的time变量改为下次要执行的时间  
+并放回到queue中.  
 
-
-
+**AsyncTask原理**  
+1.3.0版本之前的AsyncTask:  
+使用的是ThreadPoolExecutor,它的核心线程是5个,线程池允许创建的最大线程数为128,非核心线程空闲等待新任务的最长时间为1s.  
+采用的阻塞队列是LinkedBolckingQueue.它的缺点是最多容纳138个任务,当提交139个时,就会执行饱和策略,抛出RejectedExecutionException.  
+2.7.0版本的AsyncTask:  
+WorkerRunnable实现了Callable接口,并实现了它的call方法,在call方法中调用了doInBackground(mParams)来处理任务并得到结果,  
+并最终调用postResult将结果投递出去.  
+FurtrueTask是一个可管理的异步任务,它实现了Runnable和Futuree两个接口.因此可以包装Runnable和Callable.并提供给Executor执行.  
+也可以调用线程直接执行FutureTask.run().
+->当执行AsyncTask时要调用它的execute方法.它又调用executeOnExecutor方法.  
+->再会先onPreExecute方法.
+->mWorker.mParams = params:已知workerRnnable已经做为参数传递给了Future,因此参数被封装到FutureTask中.
+->exec.execute():并将mFuture也就是前面的FutureTask传进去.exec就是sDefaultExecutor,它是一个串行的线程池SerialExecutor.
+  SerialExecutor:调用exec.execute()时会将FutureTask加入到mTask中.当任务执行完成或当前没有活动任务都会执行scheduleNext,
+  从mtask取出future任务交给THREAD_POOL_EXECUTOR处理.  
 
 **implements[因普勒闷丝]**  
 -在java中是实现的意思,本意 vt.执行，履行；贯彻，落实；使生效 n. 工具；器具；用具； 家具；服装；装备；手段；充当工具的人；【法律】履行(契约等)  
@@ -73,9 +125,9 @@ drainTo():一次性从BlockingQueue区取所有可用数据(还可指定获取�
 -转让,转移  
 **condition[肯低审]**  
 -条件,情况  
-**synchronized[sin kou耐zi得]**  
+**synchronized[sin 扣耐zi得]**  
 -同步的.  
-**synchronous[sin kou耐si]**  
+**synchronous[sin 扣耐si]**  
 -同步的.同时的  
 **offer[凹弗]**  
 -提供,提议,试图.(放入数据用)  
@@ -95,3 +147,17 @@ drainTo():一次性从BlockingQueue区取所有可用数据(还可指定获取�
 -消费者,用户,顾客  
 **producer[波低sir]**  
 -生产者,制作人  
+**rejected[re 摘克 ted]**  
+-拒绝,驳回  
+**execution[ai克丝 Q 审]**  
+-执行,实行,完成;死刑  
+**policy[波了 c]**  
+-策略,方针;保险单.  
+**discard[地丝卡得]**  
+-抛弃,放弃,丢弃  
+**fixed[费克斯得]**  
+-确定的;固执的  
+**serial[c 瑞凹]**  
+-连续的;连载的.  
+**schedule[晒酒o]**  
+-计划(表);安排,预定;将....列入计划表或清单  
