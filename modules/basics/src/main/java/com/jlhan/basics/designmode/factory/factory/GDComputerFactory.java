@@ -3,6 +3,10 @@ package com.jlhan.basics.designmode.factory.factory;
 import com.jlhan.basics.designmode.factory.abstractfactory.AbstractComputerFactory;
 import com.jlhan.basics.designmode.factory.iproduct.Computer;
 
+/**
+ * 工厂方法模式
+ * 去除了与具体产品的依赖,无需修改工厂类,直接创建产品即可.
+ */
 public class GDComputerFactory extends AbstractComputerFactory {
     @Override
     public <T extends Computer> T createComputer(Class<T> clz) {
