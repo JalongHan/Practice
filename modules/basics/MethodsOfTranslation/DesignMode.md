@@ -11,3 +11,7 @@
 
 **singleton[sin 够 ten]**  
 -单例；单独的人（或物体）  
+**product[pro 大可特]**  
+-产品   
+**director[di ruai 克特]**  
+-主任,主管.导演.   

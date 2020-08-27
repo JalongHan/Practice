@@ -3,7 +3,8 @@
     package="com.jlhan.basics">
 
     <application>
-        <activity android:name=".multithread.BlockingQueueActivity"></activity>
+        <activity android:name=".designmode.DesignActivity"></activity>
+        <activity android:name=".multithread.BlockingQueueActivity" />
         <activity android:name=".multithread.StopThreadActivity" />
         <activity android:name=".multithread.RunThreadActivity" />
         <activity android:name=".view.CustomViewGroupActivity" />
