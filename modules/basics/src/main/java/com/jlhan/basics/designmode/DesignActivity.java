@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.jlhan.basics.R;
+import com.jlhan.basics.designmode.builder.builder.Builder;
+import com.jlhan.basics.designmode.builder.concretebuilder.MoonComputerBuilder;
+import com.jlhan.basics.designmode.builder.director.Director;
 import com.jlhan.basics.designmode.factory.abstractfactory.AbstractComputerFactory;
 import com.jlhan.basics.designmode.factory.factory.GDComputerFactory;
 import com.jlhan.basics.designmode.factory.product.AsusComputer;
@@ -26,5 +29,10 @@ public class DesignActivity extends AppCompatActivity {
         hpComputer.start();
         AsusComputer asusComputer = computerFactory.createComputer(AsusComputer.class);
         asusComputer.start();
+        // 建造者
+        Builder builder = new MoonComputerBuilder();
+        Director director = new Director(builder);
+        // 组装
+        director.createComputer("i7-6700", "华擎玩家至尊", "三星DDR4");
     }
 }
