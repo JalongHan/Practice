@@ -33,3 +33,7 @@
 -调用;祈求;引起.   
 **reflect[re fu lai ke te]**  
 -反射;反映   
+**decorator[呆克瑞特er]**  
+-装饰者   
+**component[肯碰嫩特]**  
+-组成;组件.   
