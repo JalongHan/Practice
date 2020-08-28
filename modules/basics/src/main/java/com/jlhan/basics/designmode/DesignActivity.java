@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.jlhan.basics.R;
-import com.jlhan.basics.designmode.decorator.DecoratorClient;
+import com.jlhan.basics.designmode.facede.FacedeClient;
 
 @Route(path = "/design/activity")
 public class DesignActivity extends AppCompatActivity {
@@ -31,6 +31,8 @@ public class DesignActivity extends AppCompatActivity {
         // 动态代理
 //        ProxyClient.DynamicBuy();
         // 装饰模式
-        DecoratorClient.invoke();
+//        DecoratorClient.invoke();
+        // 外观模式
+        FacedeClient.invoke();
     }
 }
