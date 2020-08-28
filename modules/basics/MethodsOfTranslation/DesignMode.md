@@ -17,3 +17,19 @@
 -主任,主管.导演.   
 **concrete[空克瑞特]**  
 -具体物,凝结;使凝固;修筑.   
+**proxy[pro 克c]**  
+-代理人,委托书;代用品   
+**subject[subject]**  
+-主题;起因.   
+**purchasing[破吃sing]**  
+-采购,(purchase的ing形式)   
+**purchase[破吃si]**  
+-购买;获得;赢得.   
+**dynamic[呆那米克]**  
+-动态的;动力的.   
+**invocation[因wo cation]**  
+-(计算机)调用,启用.   
+**invoke[因voke]**  
+-调用;祈求;引起.   
+**reflect[re fu lai ke te]**  
+-反射;反映   
