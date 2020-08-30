@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.jlhan.basics.R;
-import com.jlhan.basics.designmode.template.TemplateClient;
+import com.jlhan.basics.designmode.observer.ObserverClient;
 
 @Route(path = "/design/activity")
 public class DesignActivity extends AppCompatActivity {
@@ -39,6 +39,8 @@ public class DesignActivity extends AppCompatActivity {
         // 策略模式
 //        StrategyClient.invoke();
         // 模板方法模式
-        TemplateClient.invoke();
+//        TemplateClient.invoke();
+        // 订阅者模式
+        ObserverClient.invoke();
     }
 }
