@@ -21,7 +21,7 @@
 -代理人,委托书;代用品   
 **subject[subject]**  
 -主题;起因.   
-**purchasing[破吃sing]**  
+**purchasing[坡吃sing]**  
 -采购,(purchase的ing形式)   
 **purchase[破吃si]**  
 -购买;获得;赢得.   

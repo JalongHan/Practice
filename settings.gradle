@@ -1,5 +1,9 @@
 rootProject.name='Practice'
 include ':app'
+
 include ':libs:base'
 include ':libs:components'
+include ':libs:processor'
+include ':libs:annotations'
+
 include ':modules:basics'
