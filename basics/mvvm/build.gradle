@@ -1,24 +1,24 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.jlhan.practice"
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [AROUTER_MODULE_NAME: project.getName()]
             }
         }
     }
-
+    // 开启databinding  必须在app下的build.gradle也写这个句,不然会报错.
     dataBinding{
         enabled = true
     }
@@ -35,11 +35,5 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api project(':libs:components')
-    api project(':basics:basics')
-    api project(':basics:mvvm')
-
-    api project(':basics::annotations')
-    annotationProcessor project(':basics:processor')
-
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
 }

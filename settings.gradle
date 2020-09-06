@@ -7,5 +7,5 @@ include ':libs:components'
 
 include ':basics:processor'
 include ':basics:annotations'
-
 include ':basics:basics'
+include ':basics:mvvm'
