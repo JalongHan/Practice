@@ -31,10 +31,10 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api project(':libs:components')
-    api project(':modules:basics')
+    api project(':basics:basics')
 
-    api project(':libs::annotations')
-    annotationProcessor project(':libs:processor')
+    api project(':basics::annotations')
+    annotationProcessor project(':basics:processor')
 
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
 }

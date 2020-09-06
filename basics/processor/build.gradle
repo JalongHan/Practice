@@ -2,7 +2,7 @@ apply plugin: 'java-library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api project(':libs:annotations')
+    api project(':basics:annotations')
 }
 
 sourceCompatibility = "1.7"
