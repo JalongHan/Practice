@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="com.jlhan.mvvm.dynamicupdate.ObSwordsman" />
+
+        <variable
+            name="obswordsman"
+            type="ObSwordsman" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{obswordsman.name}" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@={obswordsman.name}" />
+
+        <TextView
+            android:id="@+id/bt_update_bind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="双向绑定重置" />
+
+    </LinearLayout>
+
+</layout>
+
+

@@ -1,16 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data>
+    <data class=".ActivityFirst">
 
         <variable
             name="swordsman"
-            type="com.jlhan.mvvm.Swordsman" />
+            type="com.jlhan.mvvm.mvvm.Swordsman" />
+
+        <variable
+            name="Onclicklistener"
+            type="android.view.View.OnClickListener" />
+
+        <!--import用法-->
+        <!--        <import type="com.jlhan.mvvm.mvvm.Swordsman" />-->
+
+        <!--        <variable-->
+        <!--            name="importSwordsman"-->
+        <!--            type="Swordsman" />-->
+        <!-- 相同类名时引用-->
+        <!--        <import-->
+        <!--            alias="man"-->
+        <!--            type="com.jlhan.mvvm.mvvm.Swordsman" />-->
+
+        <!--        <import type="com.jlhan.mvvm.alias.Swordsman" />-->
+
+        <!--        <variable-->
+        <!--            name="man"-->
+        <!--            type="Swordsman" />-->
+        <!--        <variable-->
+        <!--            name="swordsman"-->
+        <!--            type="Swordsman" />-->
+        <!-- 变量定义,定义一些基本数据类型和String类型-->
+        <variable
+            name="variableName"
+            type="String" />
+
+        <variable
+            name="variableAge"
+            type="int" />
+
+        <variable
+            name="variableMan"
+            type="boolean" />
+        <!--定义List,Map集合变量-->
+        <import type="java.util.ArrayList" />
+
+        <import type="java.util.Map" />
+
+        <variable
+            name="list"
+            type="ArrayList&lt;String&gt;" />
+
+        <variable
+            name="map"
+            type="Map&lt;String,String&gt;" />
+
+        <variable
+            name="arrays"
+            type="String[]" />
+
+        <!--静态方法调用-->
+        <import type="com.jlhan.mvvm.mvvm.MvvmSwordsmanUtils" />
+
+        <variable
+            name="MvvmUtilsSwordsman"
+            type="com.jlhan.mvvm.mvvm.Swordsman" />
+        <!-- 支持表达式 -->
+        <import type="android.view.View" />
+        <!-- Converter转换器,把数据格式转为需要的格式-->
+        <variable
+            name="time"
+            type="java.util.Date" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
@@ -21,7 +87,70 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{swordsman.level}" />
+        <!--设置点击监听1-->
+        <Button
+            android:id="@+id/bt_next1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="按钮测试1" />
+        <!--设置点击监听2-->
+        <Button
+            android:id="@+id/bt_next2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{Onclicklistener}"
+            android:text="按钮测试2" />
+        <!--变量定义-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{variableName}" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf(variableAge)}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf(variableMan)}" />
+
+        <!--使用List,Map集合-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{list.get(1)}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{map.get(`key`)}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{arrays[1]}" />
+        <!--静态方法调用-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{MvvmSwordsmanUtils.getName(MvvmUtilsSwordsman)}" />
+        <!--支持表达式-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{`Age:`+String.valueOf(variableAge)}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="三目运算"
+            android:visibility="@{variableMan?View.VISIBLE:View.GONE}" />
+        <!-- Converter转换器,把数据格式转为需要的格式-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{time}" />
     </LinearLayout>
-
 </layout>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="obswordsman"
+            type="com.jlhan.mvvm.dynamicupdate.ObSwordsman" />
+
+        <variable
+            name="obfswordsman"
+            type="com.jlhan.mvvm.dynamicupdate.ObFSwordsman" />
+
+        <import type="androidx.databinding.ObservableArrayList" />
+
+        <import type="com.jlhan.mvvm.dynamicupdate.ObListSwordsman" />
+
+        <variable
+            name="listObservable"
+            type="ObservableArrayList&lt;ObListSwordsman>" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{obswordsman.name}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{obswordsman.level}" />
+
+        <TextView
+            android:id="@+id/bt_updata_obswordsman"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="使用Observable更新数据" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="@{obfswordsman.name}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{obfswordsman.level}" />
+
+        <TextView
+            android:id="@+id/bt_updata_obfswordsman"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="使用ObFservable更新数据" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="@{listObservable.get(0).name}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{listObservable.get(1).name}" />
+
+        <TextView
+            android:id="@+id/bt_updata_oblists"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="使用ObserverArraylist更新数据" />
+
+    </LinearLayout>
+
+</layout>

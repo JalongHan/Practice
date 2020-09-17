@@ -1,4 +1,4 @@
-package com.jlhan.mvvm;
+package com.jlhan.mvvm.mvvm;
 
 public class Swordsman {
 

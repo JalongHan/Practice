@@ -3,7 +3,10 @@
     package="com.jlhan.mvvm">
 
     <application>
-        <activity android:name=".MvvmActivity"></activity>
+        <activity android:name=".recyclerview.RecyclerviewActivity"></activity>
+        <activity android:name=".twowaybinding.TwoWayBindingActivity" />
+        <activity android:name=".dynamicupdate.DynamicUpdateActivity" />
+        <activity android:name=".mvvm.MvvmActivity" />
     </application>
 
 </manifest>

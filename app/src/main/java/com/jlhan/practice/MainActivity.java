@@ -30,7 +30,10 @@ public class MainActivity extends AppCompatActivity {
 //                ARouter.getInstance().build("/BlockingQueue/activity").navigation();
 //                ARouter.getInstance().build("/design/activity").navigation();
 //                ARouter.getInstance().build("/annotation/activity").navigation();
-                ARouter.getInstance().build("/mvvm/activity").navigation();
+//                ARouter.getInstance().build("/mvvm/activity").navigation();
+//                ARouter.getInstance().build("/activity/dynamicupdate").navigation();
+//                ARouter.getInstance().build("/activity/twowaybinding").navigation();
+                ARouter.getInstance().build("/activity/recyclerview").navigation();
             }
         });
     }

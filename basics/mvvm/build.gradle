@@ -19,8 +19,8 @@ android {
         }
     }
     // 开启databinding  必须在app下的build.gradle也写这个句,不然会报错.
-    dataBinding{
-        enabled = true
+    buildFeatures{
+        dataBinding = true
     }
 
     buildTypes {
@@ -35,5 +35,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api project(':libs:components')
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
 }

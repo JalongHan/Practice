@@ -1,3 +1,5 @@
+import com.android.builder.model.SigningConfig
+
 apply plugin: 'com.android.application'
 
 android {
@@ -19,14 +21,29 @@ android {
         }
     }
 
-    dataBinding{
-        enabled = true
+    buildFeatures{
+        dataBinding = true
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            debuggable true
+            minifyEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.debug as SigningConfig
+            multiDexEnabled true
+            aaptOptions {
+                cruncherEnabled = false
+            }
         }
     }
 
@@ -35,9 +52,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api project(':libs:components')
+
     api project(':basics:basics')
     api project(':basics:mvvm')
-
     api project(':basics::annotations')
     annotationProcessor project(':basics:processor')
 
