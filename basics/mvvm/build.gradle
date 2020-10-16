@@ -1,12 +1,20 @@
-apply plugin: 'com.android.library'
+if (isMvvmDebug) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
+}
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion androidVersion.compileSdkVersion
+    buildToolsVersion androidVersion.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 29
+        // library不能设置applicationId
+        if (isMvvmDebug) {
+            applicationId androidVersion.applicationId + "." + project.getName()
+        }
+        minSdkVersion androidVersion.minSdkVersion
+        targetSdkVersion androidVersion.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -19,7 +27,7 @@ android {
         }
     }
     // 开启databinding  必须在app下的build.gradle也写这个句,不然会报错.
-    buildFeatures{
+    buildFeatures {
         dataBinding = true
     }
 
@@ -35,7 +43,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api project(':libs:components')
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation dps.recyclerview
 
-    annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
+    annotationProcessor dps.arouter_compiler
 }

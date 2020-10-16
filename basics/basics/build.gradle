@@ -1,12 +1,19 @@
-apply plugin: 'com.android.library'
-
+if (isBasicsDebug) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
+}
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion androidVersion.compileSdkVersion
+    buildToolsVersion androidVersion.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 29
+        // library不能设置applicationId
+        if (isBasicsDebug) {
+            applicationId androidVersion.applicationId + "." + project.getName()
+        }
+        minSdkVersion androidVersion.minSdkVersion
+        targetSdkVersion androidVersion.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -31,5 +38,5 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api project(':libs:components')
-    annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
+    annotationProcessor dps.arouter_compiler
 }

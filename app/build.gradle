@@ -1,17 +1,15 @@
-import com.android.builder.model.SigningConfig
-
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion androidVersion.compileSdkVersion
+    buildToolsVersion androidVersion.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.jlhan.practice"
-        minSdkVersion 19
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        applicationId androidVersion.applicationId
+        minSdkVersion androidVersion.minSdkVersion
+        targetSdkVersion androidVersion.targetSdkVersion
+        versionCode androidVersion.versionCode
+        versionName androidVersion.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
@@ -21,17 +19,23 @@ android {
         }
     }
 
-    buildFeatures{
+    buildFeatures {
         dataBinding = true
     }
 
     buildTypes {
         release {
+            // 是否debug模式,当release下面的debuggable为true时也可以输出日志
             debuggable false
+            // 混淆
             minifyEnabled true
+            // 移除无用的resource文件
             shrinkResources true
+            // zipaligin优化
             zipAlignEnabled true
+            // 多dex分包支持
             multiDexEnabled true
+            // 配置混淆的文件
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
 
@@ -39,16 +43,15 @@ android {
             debuggable true
             minifyEnabled false
             shrinkResources false
-            signingConfig signingConfigs.debug as SigningConfig
             multiDexEnabled true
             aaptOptions {
                 cruncherEnabled = false
             }
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
 }
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api project(':libs:components')
@@ -56,7 +59,8 @@ dependencies {
     api project(':basics:basics')
     api project(':basics:mvvm')
     api project(':basics::annotations')
+
     annotationProcessor project(':basics:processor')
 
-    annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
+    annotationProcessor dps.arouter_compiler
 }
