@@ -34,6 +34,7 @@ dependencies {
 
     api dps.appcompat
     api dps.constraintlayout
+    api dps.recyclerview
     api dps.utilcodex
     api dps.eventbus
     api dps.arouter_api
