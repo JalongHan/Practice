@@ -5,3 +5,6 @@ include 'core','components','base'
 
 include 'modules:basics:processor','modules:basics:annotations',
         'modules:basics:basics','modules:basics:mvvm'
+
+include ':practice-compiler'
+include ':practice-annotation'
