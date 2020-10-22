@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        mTvText = findViewById(R.id.tvText);
         mRvList = findViewById(R.id.rv_list);
         mLinearLayoutManager = new LinearLayoutManager(this);
         mRvList.setLayoutManager(mLinearLayoutManager);
@@ -31,24 +30,6 @@ public class MainActivity extends AppCompatActivity {
         mRvList.setAdapter(mActivityAdapter);
         paddingData();
         mActivityAdapter.setList(mList);
-
-//        mTvText.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ARouter.getInstance().build("/view/activity").navigation();
-//                ARouter.getInstance().build("/customView/activity").navigation();
-//                ARouter.getInstance().build("/customViewGroup/activity").navigation();
-//                ARouter.getInstance().build("/MultiThread/activity").navigation();
-//                ARouter.getInstance().build("/StopThread/activity").navigation();
-//                ARouter.getInstance().build("/BlockingQueue/activity").navigation();
-//                ARouter.getInstance().build("/design/activity").navigation();
-//                ARouter.getInstance().build("/annotation/activity").navigation();
-//                ARouter.getInstance().build("/mvvm/activity").navigation();
-//                ARouter.getInstance().build("/activity/dynamicupdate").navigation();
-//                ARouter.getInstance().build("/activity/twowaybinding").navigation();
-//                ARouter.getInstance().build("/activity/recyclerview").navigation();
-//            }
-//        });
     }
 
     private void paddingData() {

@@ -54,13 +54,14 @@ android {
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api project(':libs:components')
+    api project(':base')
 
-    api project(':basics:basics')
-    api project(':basics:mvvm')
-    api project(':basics::annotations')
-
-    annotationProcessor project(':basics:processor')
+    api project(':modules:basics:basics')
+    if (!isMvvmDebug) {
+        api project(':modules:basics:mvvm')
+    }
+    api project(':modules:basics::annotations')
+    annotationProcessor project(':modules:basics:processor')
 
     annotationProcessor dps.arouter_compiler
 }

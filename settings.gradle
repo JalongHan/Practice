@@ -1,11 +1,7 @@
 rootProject.name='Practice'
 include ':app'
 
-include ':libs:base'
-include ':libs:components'
+include 'core','components','base'
 
-
-include ':basics:processor'
-include ':basics:annotations'
-include ':basics:basics'
-include ':basics:mvvm'
+include 'modules:basics:processor','modules:basics:annotations',
+        'modules:basics:basics','modules:basics:mvvm'
