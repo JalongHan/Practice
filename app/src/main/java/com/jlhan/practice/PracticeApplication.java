@@ -3,6 +3,7 @@ package com.jlhan.practice;
 import android.app.Application;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+//import com.jlhan.core.ActivityListHolder;
 
 public class PracticeApplication extends Application {
 
@@ -16,5 +17,6 @@ public class PracticeApplication extends Application {
         }
         // 尽可能早，推荐在Application中初始化
         ARouter.init(this);
+//        ActivityListHolder.init();
     }
 }

@@ -1,7 +1,7 @@
 ext {
     // false 作为lib组件 ，true作为application存在
     isBasicsDebug = false // 基础练习组件
-    isMvvmDebug = true // mvvm练习组件
+    isMvvmDebug = false // mvvm练习组件
 
     androidVersion = [
             applicationId    : "com.jlhan.practice",

@@ -33,6 +33,10 @@ android {
 }
 
 dependencies {
+    // 要给模块层依赖的全放在这里面.
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api project(':components')
+
+    api project(':practice-annotation')
+    annotationProcessor project(':practice-compiler')
 }

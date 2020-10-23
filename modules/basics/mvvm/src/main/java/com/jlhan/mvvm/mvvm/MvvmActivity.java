@@ -8,6 +8,8 @@ import androidx.databinding.DataBindingUtil;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.blankj.utilcode.util.ToastUtils;
+import com.jlhan.annotation.ActivityBean;
+import com.jlhan.base.activitybean.Constants;
 import com.jlhan.mvvm.ActivityFirst;
 import com.jlhan.mvvm.R;
 
@@ -16,7 +18,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-@Route(path = "/mvvm/activity")
+@ActivityBean(activityPath = Constants.Mvvm.ACTIVITY_PATH, activityName = Constants.Mvvm.ACTIVITY_NAME)
+@Route(path = Constants.Mvvm.ACTIVITY_PATH)
 public class MvvmActivity extends AppCompatActivity {
 
     @Override

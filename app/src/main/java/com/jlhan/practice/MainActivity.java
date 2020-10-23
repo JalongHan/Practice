@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.jlhan.core.ActivityBean;
+import com.jlhan.core.ActivityFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
         mRvList.setLayoutManager(mLinearLayoutManager);
         mActivityAdapter = new ActivityAdapter();
         mRvList.setAdapter(mActivityAdapter);
-        paddingData();
+        mList = ActivityFactory.getActivityList();
+//        paddingData();
         mActivityAdapter.setList(mList);
     }
 

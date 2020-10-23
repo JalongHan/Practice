@@ -53,8 +53,16 @@ android {
 
 }
 dependencies {
+    /*
+     * implementation:该方式依赖的库不会传递,只会在当前module中生效.
+     * api:该方式依赖会传递所依赖的库,当其他module依赖了该module时可以使用该module下使用api依赖的库
+     *
+     */
+
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api project(':base')
+    implementation project(':base')
+    api dps.recyclerview
 
     api project(':modules:basics:basics')
     if (!isMvvmDebug) {
@@ -62,6 +70,9 @@ dependencies {
     }
     api project(':modules:basics::annotations')
     annotationProcessor project(':modules:basics:processor')
+
+    api project(':practice-annotation')
+    annotationProcessor project(':practice-compiler')
 
     annotationProcessor dps.arouter_compiler
 }

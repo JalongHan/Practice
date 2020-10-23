@@ -41,5 +41,12 @@ dependencies {
     api project(':base')
     implementation dps.recyclerview
 
+//    api project(':practice-annotation')
+//    annotationProcessor project(':practice-compiler')
+
     annotationProcessor dps.arouter_compiler
+    // 下面三个不使用单元测试可删除.
+    testImplementation dps.junit
+    androidTestImplementation dps.ext_junit
+    androidTestImplementation dps.espresso_core
 }
