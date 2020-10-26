@@ -15,7 +15,8 @@ android {
 
 //        javaCompileOptions {
 //            annotationProcessorOptions {
-//                arguments = [AROUTER_MODULE_NAME: project.getName()]
+//                arguments = [AROUTER_MODULE_NAME: project.getName(),
+//                             isApp              : "false"]
 //            }
 //        }
     }
@@ -37,6 +38,7 @@ dependencies {
     api dps.utilcodex
     api dps.eventbus
     api dps.arouter_api
+    api dps.arouter_compiler
     testImplementation dps.junit
     androidTestImplementation dps.ext_junit
     androidTestImplementation dps.espresso_core

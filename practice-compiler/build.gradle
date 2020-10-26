@@ -4,6 +4,7 @@ plugins {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api project(':practice-annotation')
+    api dps.gson
 }
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8

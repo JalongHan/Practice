@@ -17,6 +17,6 @@ public class PracticeApplication extends Application {
         }
         // 尽可能早，推荐在Application中初始化
         ARouter.init(this);
-//        ActivityListHolder.init();
+        ActivityListHolder.init();
     }
 }
