@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.Writer;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -16,6 +15,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -92,7 +92,7 @@ public class ActivityBeanProcessor extends AbstractProcessor {
             ActivityInfo activityInfo = new ActivityInfo();
             activityInfo.ActivityName = annotation.activityName();
             activityInfo.ActivityPath = annotation.activityPath();
-            infoList.add(activityInfo);
+            BindingInfo.activityList.add(activityInfo);
         }
 
         note(BindingInfo.activityList.size() + "");
@@ -125,7 +125,6 @@ public class ActivityBeanProcessor extends AbstractProcessor {
                 writer.flush();
                 writer.close();
             } catch (IOException e) {
-                saveAnnotationInfo();
             }
             mMessager.printMessage(Diagnostic.Kind.NOTE, ">>> analysisAnnotated is finish... <<<");
         } else {
@@ -141,15 +140,20 @@ public class ActivityBeanProcessor extends AbstractProcessor {
                 List<String> fileList = new ArrayList<>();
                 URL[] urls = ((URLClassLoader) loader).getURLs();
                 for (URL url : urls) {
+                    note(url.toString());
                     String filePath = url.getFile();
                     File file = new File(filePath);
                     if (file.getName().endsWith(".jar") && file.exists()) {
                         ZipFile zipFile = new ZipFile(file);
-                        InputStream inputSteam = zipFile.getInputStream(zipFile.getEntry(file.getName()));
+                        ZipEntry entry = zipFile.getEntry(FILE_NAME);
+                        if (entry == null) {
+                            continue;
+                        }
+                        InputStream inputSteam = zipFile.getInputStream(entry);
                         final int bufferSize = 1024;
                         final char[] buffer = new char[bufferSize];
                         final StringBuilder out = new StringBuilder();
-                        Reader in = new InputStreamReader(inputSteam, StandardCharsets.UTF_8);
+                        InputStreamReader in = new InputStreamReader(inputSteam, StandardCharsets.UTF_8);
                         for (; ; ) {
                             int rsz = in.read(buffer, 0, buffer.length);
                             if (rsz < 0) {
@@ -165,7 +169,6 @@ public class ActivityBeanProcessor extends AbstractProcessor {
                         ActivityInfo activityInfo = new Gson().fromJson(bindingString, ActivityInfo.class);
                         BindingInfo.activityList.add(activityInfo);
                     }
-
                 }
             }
         } catch (IOException e) {

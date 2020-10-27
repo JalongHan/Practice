@@ -5,10 +5,6 @@ android {
     buildToolsVersion androidVersion.buildToolsVersion
 
     defaultConfig {
-        // library不能设置applicationId
-//        if (isMvvmDebug) {
-//            applicationId androidVersion.applicationId + "." + project.getName()
-//        }
         minSdkVersion androidVersion.minSdkVersion
         targetSdkVersion androidVersion.targetSdkVersion
         versionCode 1
@@ -19,12 +15,17 @@ android {
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [AROUTER_MODULE_NAME: project.getName(), isApp: "false"]
+                includeCompileClasspath = true
             }
         }
     }
     // 开启databinding  必须在app下的build.gradle也写这个句,不然会报错.
-    buildFeatures {
-        dataBinding = true
+//    buildFeatures {
+//        dataBinding = true
+//    }
+
+    dataBinding {
+        enabled = true
     }
 
     buildTypes {

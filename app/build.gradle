@@ -15,12 +15,16 @@ android {
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [AROUTER_MODULE_NAME: project.getName(), isApp: "true"]
+                includeCompileClasspath = true
             }
         }
     }
 
-    buildFeatures {
-        dataBinding = true
+//    buildFeatures {
+//        dataBinding = true
+//    }
+    dataBinding {
+        enabled = true
     }
 
     buildTypes {
@@ -64,15 +68,14 @@ dependencies {
     implementation project(':base')
     api dps.recyclerview
 
-    api project(':modules:basics:basics')
+    implementation project(':modules:basics:basics')
     if (!isMvvmDebug) {
-        api project(':modules:basics:mvvm')
+        implementation project(':modules:basics:mvvm')
     }
+
+    implementation project(':practice-annotation')
+    annotationProcessor project(':practice-compiler')
+    annotationProcessor dps.arouter_compiler
     api project(':modules:basics::annotations')
     annotationProcessor project(':modules:basics:processor')
-
-    api project(':practice-annotation')
-    annotationProcessor project(':practice-compiler')
-
-    annotationProcessor dps.arouter_compiler
 }
