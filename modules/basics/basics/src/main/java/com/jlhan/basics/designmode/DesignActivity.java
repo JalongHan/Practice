@@ -5,10 +5,13 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.jlhan.annotation.ActivityBean;
+import com.jlhan.basics.Constants;
 import com.jlhan.basics.R;
 import com.jlhan.basics.designmode.observer.ObserverClient;
 
-@Route(path = "/design/activity")
+@ActivityBean(activityPath = Constants.DESIGN.ACTIVITY_PATH, activityName = Constants.DESIGN.ACTIVITY_NAME)
+@Route(path = Constants.DESIGN.ACTIVITY_PATH)
 public class DesignActivity extends AppCompatActivity {
 
     @Override

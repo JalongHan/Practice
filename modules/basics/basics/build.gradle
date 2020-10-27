@@ -39,6 +39,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api project(':base')
+    api project(':practice-annotation')
+    annotationProcessor project(':practice-compiler')
     annotationProcessor dps.arouter_compiler
     testImplementation dps.junit
     androidTestImplementation dps.ext_junit

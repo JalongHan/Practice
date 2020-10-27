@@ -9,12 +9,12 @@ import androidx.databinding.ObservableArrayList;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.jlhan.annotation.ActivityBean;
-import com.jlhan.base.activitybean.Constants;
+import com.jlhan.mvvm.Constants;
 import com.jlhan.mvvm.R;
 import com.jlhan.mvvm.databinding.ActivityDynamicUpdateBinding;
 
-@ActivityBean(activityPath = Constants.DaynmicUpdate.ACTIVITY_PATH, activityName = Constants.DaynmicUpdate.ACTIVITY_NAME)
-@Route(path = Constants.DaynmicUpdate.ACTIVITY_PATH)
+@ActivityBean(activityPath = Constants.DAYNMIC_UPDATE.ACTIVITY_PATH, activityName = Constants.DAYNMIC_UPDATE.ACTIVITY_NAME)
+@Route(path = Constants.DAYNMIC_UPDATE.ACTIVITY_PATH)
 public class DynamicUpdateActivity extends AppCompatActivity {
 
     private ObSwordsman obSwordsman;

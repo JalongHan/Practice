@@ -12,7 +12,6 @@ import com.jlhan.core.ActivityFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-@com.jlhan.annotation.ActivityBean(activityPath = "MainActivity", activityName = "MainActivity")
 public class MainActivity extends AppCompatActivity {
 
 //    @BindView(value = R.id.tvText)

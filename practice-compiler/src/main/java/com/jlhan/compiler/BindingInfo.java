@@ -5,6 +5,6 @@ import java.util.List;
 
 public class BindingInfo {
 
-    public static List<ActivityInfo> activityList = new ArrayList<>();
+    public List<ActivityInfo> activityList = new ArrayList<>();
 
 } 

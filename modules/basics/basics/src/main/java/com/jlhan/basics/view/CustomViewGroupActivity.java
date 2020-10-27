@@ -7,9 +7,12 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.jlhan.annotation.ActivityBean;
+import com.jlhan.basics.Constants;
 import com.jlhan.basics.R;
 
-@Route(path = "/customViewGroup/activity")
+@ActivityBean(activityPath = Constants.CUSTON_VIEWGROUP.ACTIVITY_PATH, activityName = Constants.CUSTON_VIEWGROUP.ACTIVITY_NAME)
+@Route(path = Constants.CUSTON_VIEWGROUP.ACTIVITY_PATH)
 public class CustomViewGroupActivity extends AppCompatActivity {
 
     private ListView mLvOne;

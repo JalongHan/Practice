@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.jlhan.annotation.ActivityBean;
+import com.jlhan.basics.Constants;
 import com.jlhan.basics.R;
 import com.jlhan.basics.multithread.stopthread.StopThreadInterrupt;
 import com.jlhan.basics.multithread.stopthread.StopThreadSwitch;
@@ -16,7 +18,8 @@ import java.util.concurrent.TimeUnit;
  * @date 2020/6/29
  * @description 中断线程
  */
-@Route(path = "/StopThread/activity")
+@ActivityBean(activityPath = Constants.STOP_THREAD.ACTIVITY_PATH, activityName = Constants.STOP_THREAD.ACTIVITY_NAME)
+@Route(path = Constants.STOP_THREAD.ACTIVITY_PATH)
 public class StopThreadActivity extends AppCompatActivity {
 
     @Override
