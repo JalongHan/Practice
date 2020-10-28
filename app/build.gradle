@@ -70,8 +70,10 @@ dependencies {
     implementation project(':base')
     api dps.recyclerview
 
-    implementation project(':modules:basics:basics')
-    if (!isMvvmDebug) {
+    if (isBasicsDebug) {
+        implementation project(':modules:basics:basics')
+    }
+    if (isMvvmDebug) {
         implementation project(':modules:basics:mvvm')
     }
 

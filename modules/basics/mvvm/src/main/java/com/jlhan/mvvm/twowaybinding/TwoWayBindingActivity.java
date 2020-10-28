@@ -7,13 +7,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.jlhan.annotation.ActivityBean;
+import com.jlhan.annotation.CollectActivity;
 import com.jlhan.mvvm.Constants;
 import com.jlhan.mvvm.R;
 import com.jlhan.mvvm.databinding.ActivityTwoWayBindingBinding;
 import com.jlhan.mvvm.dynamicupdate.ObSwordsman;
 
-@ActivityBean(activityPath = Constants.TWO_WAY_BINDING.ACTIVITY_PATH, activityName = Constants.TWO_WAY_BINDING.ACTIVITY_NAME)
+@CollectActivity(activityPath = Constants.TWO_WAY_BINDING.ACTIVITY_PATH, activityName = Constants.TWO_WAY_BINDING.ACTIVITY_NAME)
 @Route(path = Constants.TWO_WAY_BINDING.ACTIVITY_PATH)
 public class TwoWayBindingActivity extends AppCompatActivity {
 

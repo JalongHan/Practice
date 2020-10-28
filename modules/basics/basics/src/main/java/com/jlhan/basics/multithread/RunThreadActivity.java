@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.blankj.utilcode.util.LogUtils;
-import com.jlhan.annotation.ActivityBean;
+import com.jlhan.annotation.CollectActivity;
 import com.jlhan.basics.Constants;
 import com.jlhan.basics.R;
 import com.jlhan.basics.multithread.thread.TestCallable;
@@ -23,7 +23,7 @@ import java.util.concurrent.Future;
  * @date 2020/6/29
  * @description 多线程开启方式
  */
-@ActivityBean(activityPath = Constants.MULTI_THREAD.ACTIVITY_PATH, activityName = Constants.MULTI_THREAD.ACTIVITY_NAME)
+@CollectActivity(activityPath = Constants.MULTI_THREAD.ACTIVITY_PATH, activityName = Constants.MULTI_THREAD.ACTIVITY_NAME)
 @Route(path = Constants.MULTI_THREAD.ACTIVITY_PATH)
 public class RunThreadActivity extends AppCompatActivity {
 

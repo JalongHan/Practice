@@ -8,12 +8,12 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ObservableArrayList;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.jlhan.annotation.ActivityBean;
+import com.jlhan.annotation.CollectActivity;
 import com.jlhan.mvvm.Constants;
 import com.jlhan.mvvm.R;
 import com.jlhan.mvvm.databinding.ActivityDynamicUpdateBinding;
 
-@ActivityBean(activityPath = Constants.DAYNMIC_UPDATE.ACTIVITY_PATH, activityName = Constants.DAYNMIC_UPDATE.ACTIVITY_NAME)
+@CollectActivity(activityPath = Constants.DAYNMIC_UPDATE.ACTIVITY_PATH, activityName = Constants.DAYNMIC_UPDATE.ACTIVITY_NAME)
 @Route(path = Constants.DAYNMIC_UPDATE.ACTIVITY_PATH)
 public class DynamicUpdateActivity extends AppCompatActivity {
 

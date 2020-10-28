@@ -1,7 +1,7 @@
 package com.jlhan.compiler;
 
 import com.google.gson.Gson;
-import com.jlhan.annotation.ActivityBean;
+import com.jlhan.annotation.CollectActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,11 +37,11 @@ import javax.tools.StandardLocation;
 /**
  * @author hanjinlong
  * @date 2020/10/23
- * @description ActivityBean注解的处理器
+ * @description 注解处理器, 收集activity的path和名字生成后给首页列表使用.
  */
-public class ActivityBeanProcessor extends AbstractProcessor {
+public class CollectProcessor extends AbstractProcessor {
 
-    public static final String FILE_NAME = "ANNOTATION.json";
+    public static final String DATA_FILE_NAME = "DATA.json";
 
     private Messager mMessager;
     private Types mTypeUtils;
@@ -49,7 +49,7 @@ public class ActivityBeanProcessor extends AbstractProcessor {
     private Elements mElementUtils;
     // 是否是app的module
     private boolean mIsApp;
-    private BindingInfo mBindingInfo;
+    private CollectData mCollectData;
 
     // 初始化
     @Override
@@ -60,10 +60,10 @@ public class ActivityBeanProcessor extends AbstractProcessor {
         mFiler = processingEnv.getFiler();
         mElementUtils = processingEnv.getElementUtils();
         mIsApp = "true".equals(processingEnvironment.getOptions().get("isApp"));
-        mBindingInfo = new BindingInfo();
+        mCollectData = new CollectData();
         // 当app模块下没有注解不走process方法.直接读取注解数据
         if (mIsApp) {
-            readAnnotationInfo();
+            readAnnotationData();
             writeToFile();
         }
     }
@@ -74,60 +74,55 @@ public class ActivityBeanProcessor extends AbstractProcessor {
         return SourceVersion.latestSupported();
     }
 
+    // 支持的注解
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> annotations = new LinkedHashSet<>();
-        annotations.add(ActivityBean.class.getCanonicalName());
+        annotations.add(CollectActivity.class.getCanonicalName());
         return annotations;
     }
 
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
-        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(ActivityBean.class);
+        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(CollectActivity.class);
         // 先将所有的注解保存起来.
         for (Element element : elements) {
             if (element.getKind() != ElementKind.CLASS) {
                 // 打印错误日志
-                error(element, "Only classes can be annotated with @%s", ActivityBean.class.getSimpleName());
+                error(element, "Only classes can be annotated with @%s", CollectActivity.class.getSimpleName());
                 // 退出
                 return true;
             }
-            ActivityBean annotation = element.getAnnotation(ActivityBean.class);
+            CollectActivity annotation = element.getAnnotation(CollectActivity.class);
             ActivityInfo activityInfo = new ActivityInfo();
             activityInfo.ActivityName = annotation.activityName();
             activityInfo.ActivityPath = annotation.activityPath();
-            mBindingInfo.activityList.add(activityInfo);
+            mCollectData.activityList.add(activityInfo);
         }
-
-        note(mBindingInfo.activityList.size() + "");
-        note("mIsApp=" + mIsApp);
-        if (mIsApp) {
-            readAnnotationInfo();
-            writeToFile();
-        } else {
-            saveAnnotationInfo();
+        if (!mIsApp) {
+            saveAnnotationData();
         }
         return false;
     }
 
     private void writeToFile() {
         StringBuilder builder = new StringBuilder();
-        builder.append("package com.jlhan.practice;\n\n");
+        builder.append("package com.jlhan.collect;\n\n");
         builder.append("import com.jlhan.core.ActivityFactory;\n");
         builder.append("public class ActivityListHolder { \n");
         builder.append("public static void init() {\n");
-        for (ActivityInfo element : mBindingInfo.activityList) {
+        for (ActivityInfo info : mCollectData.activityList) {
             // 检查这个注解是否是一个类
             builder.append("ActivityFactory.addActivity(\"");
-            builder.append(element.ActivityPath);
+            builder.append(info.ActivityPath);
             builder.append("\",\"");
-            builder.append(element.ActivityName);
+            builder.append(info.ActivityName);
             builder.append("\");\n");
         }
         builder.append("}\n");
         builder.append("}\n");
         try {
-            JavaFileObject source = mFiler.createSourceFile("com.jlhan.practice.ActivityListHolder");
+            JavaFileObject source = mFiler.createSourceFile("com.jlhan.collect.ActivityListHolder");
             Writer writer = source.openWriter();
             writer.write(builder.toString());
             writer.flush();
@@ -135,10 +130,10 @@ public class ActivityBeanProcessor extends AbstractProcessor {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        mMessager.printMessage(Diagnostic.Kind.NOTE, ">>> Annotated is finish... <<<");
+        note(">>> collect is finish... <<<");
     }
 
-    private void readAnnotationInfo() {
+    private void readAnnotationData() {
         // 从ClassLoader中的urls中读取每个module生成的jar包.拿到里面生成的annotation.json
         // 这种方式只适合当前gradle版本,尝试过6.1时,打包时不会再执行createFullJarDebug,导致URLCalssloader中无法拿到jar包.
         ClassLoader loader = getClass().getClassLoader();
@@ -151,7 +146,7 @@ public class ActivityBeanProcessor extends AbstractProcessor {
                     File file = new File(filePath);
                     if (file.getName().endsWith(".jar") && file.exists()) {
                         ZipFile zipFile = new ZipFile(file);
-                        ZipEntry entry = zipFile.getEntry(FILE_NAME);
+                        ZipEntry entry = zipFile.getEntry(DATA_FILE_NAME);
                         if (entry == null) {
                             continue;
                         }
@@ -172,8 +167,8 @@ public class ActivityBeanProcessor extends AbstractProcessor {
                 }
                 if (fileList.size() > 0) {
                     for (String bindingString : fileList) {
-                        BindingInfo bindingInfo = new Gson().fromJson(bindingString, BindingInfo.class);
-                        mBindingInfo.activityList.addAll(bindingInfo.activityList);
+                        CollectData collectData = new Gson().fromJson(bindingString, CollectData.class);
+                        mCollectData.activityList.addAll(collectData.activityList);
                     }
                 }
             }
@@ -182,11 +177,11 @@ public class ActivityBeanProcessor extends AbstractProcessor {
         }
     }
 
-    private void saveAnnotationInfo() {
+    private void saveAnnotationData() {
         try {
-            FileObject file = mFiler.createResource(StandardLocation.CLASS_OUTPUT, "", FILE_NAME);
+            FileObject file = mFiler.createResource(StandardLocation.CLASS_OUTPUT, "", DATA_FILE_NAME);
             Writer writer = file.openWriter();
-            writer.write(new Gson().toJson(mBindingInfo));
+            writer.write(new Gson().toJson(mCollectData));
             writer.flush();
             writer.close();
         } catch (IOException e) {
@@ -195,6 +190,7 @@ public class ActivityBeanProcessor extends AbstractProcessor {
     }
 
     private void error(Element element, String s, String simpleName) {
+        // 当使用这个error打印时会退出processor,导致打包也结束.
         mMessager.printMessage(Diagnostic.Kind.ERROR, String.format(s, simpleName), element);
     }
 
