@@ -99,7 +99,11 @@ public class CollectProcessor extends AbstractProcessor {
             activityInfo.ActivityPath = annotation.activityPath();
             mCollectData.activityList.add(activityInfo);
         }
-        if (!mIsApp) {
+        // 当app模块下有注解时走process方法.直接读取注解数据
+        if (mIsApp) {
+            readAnnotationData();
+            writeToFile();
+        } else {
             saveAnnotationData();
         }
         return false;
@@ -134,8 +138,8 @@ public class CollectProcessor extends AbstractProcessor {
     }
 
     private void readAnnotationData() {
-        // 从ClassLoader中的urls中读取每个module生成的jar包.拿到里面生成的annotation.json
-        // 这种方式只适合当前gradle版本,尝试过6.1时,打包时不会再执行createFullJarDebug,导致URLCalssloader中无法拿到jar包.
+        // 从ClassLoader中的urls中读取每个module生成的jar包.拿到里面生成的DATA.json
+        // 这种方式只适合当前gradle版本,尝试过6.1时,打包时不会再执行gradle中createFullJarDebug,导致URLCalssloader中无法拿到jar包.
         ClassLoader loader = getClass().getClassLoader();
         try {
             if (loader instanceof URLClassLoader) {
