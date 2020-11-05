@@ -13,6 +13,8 @@ import com.jlhan.core.ActivityBean;
 
 import java.util.List;
 
+import io.flutter.app.FlutterActivity;
+
 public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ActivityViewHolder> {
 
     private List<ActivityBean> mList;
@@ -37,6 +39,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
             @Override
             public void onClick(View v) {
                 ARouter.getInstance().build(bean.activityPath).navigation();
+                FlutterActivity
             }
         });
     }
