@@ -58,6 +58,10 @@ android {
         // 排队界面列表生成的json
         exclude 'ANNOTATION.json'
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
 }
 dependencies {
@@ -78,6 +82,7 @@ dependencies {
     }
 
     implementation project(':practice-annotation')
+    implementation project(path: ':flutter')
     annotationProcessor project(':practice-compiler')
     annotationProcessor dps.arouter_compiler
     api project(':modules:basics::annotations')
